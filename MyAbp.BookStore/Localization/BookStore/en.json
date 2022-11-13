@@ -1,0 +1,33 @@
+{
+  "culture": "en",
+  "texts": {
+    "Welcome_Title": "Welcome",
+    "Welcome_Text": "This is a minimalist, single layer application startup template for the ABP Framework.",
+    "Menu:Home": "Home",
+    "Permission:Books": "Books",
+    "Permission:BookStore": "Book Store",
+    "Permission:Create": "Create",
+    "Permission:Edit": "Edit",
+    "Permission:Delete": "Delete",
+    "Books": "Books",
+    "NewBook": "New Book",
+    "Actions": "Actions",
+    "SuccessfullyDeleted": "Successfully deleted",
+    "DeleteConfirmationMessage": "Are you sure you want to delete this record?",
+    "Search": "Search",
+    "Pick": "Pick",
+    "SeeAdvancedFilters": "Advanced filters",
+    "ItemAlreadyAdded": "This item is already added.",
+    "ExportToExcel": "Export to Excel",
+    "Name": "Name",
+    "AuthorName": "Author Name",
+    "Price": "Price",
+    "PublishDate": "Publish Date",
+    "MinPrice": "Min Price",
+    "MinPublishDate": "Min Publish Date",
+    "MaxPrice": "Max Price",
+    "MaxPublishDate": "Max Publish Date",
+    "Menu:Books": "Books",
+    "Menu:BookStore": "Book Store"
+  }
+}
