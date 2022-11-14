@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Caching.Distributed;
 using MyAbp.BookStore.Permissions;
+using MyAbp.BookStore.Services.Books;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Caching;
 
 namespace MyAbp.BookStore.Books
 {
@@ -9,10 +12,12 @@ namespace MyAbp.BookStore.Books
     public class BooksAppService : ApplicationService, IBooksAppService
     {
         private readonly IBookRepository _bookRepository;
+        private readonly IDistributedCache<BookExcelDownloadTokenCacheItem, string> _excelDownloadTokenCache;
 
-        public BooksAppService(IBookRepository bookRepository)
+        public BooksAppService(IBookRepository bookRepository, IDistributedCache<BookExcelDownloadTokenCacheItem, string> excelDownloadTokenCache)
         {
             _bookRepository = bookRepository;
+            _excelDownloadTokenCache = excelDownloadTokenCache;
         }
 
         public virtual async Task<PagedResultDto<BookDto>> GetListAsync(GetBooksInput input)
@@ -56,6 +61,24 @@ namespace MyAbp.BookStore.Books
         public virtual async Task DeleteAsync(Guid id)
         {
             await _bookRepository.DeleteAsync(id);
+        }
+
+        public async Task<DownloadTokenResultDto> GetDownloadTokenAsync()
+        {
+            var token = Guid.NewGuid().ToString("N");
+
+            await _excelDownloadTokenCache.SetAsync(
+                token,
+                new BookExcelDownloadTokenCacheItem { Token = token },
+                new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
+                });
+
+            return new DownloadTokenResultDto
+            {
+                Token = token
+            };
         }
     }
 }

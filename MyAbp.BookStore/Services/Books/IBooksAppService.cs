@@ -10,5 +10,6 @@ namespace MyAbp.BookStore.Books
         Task<BookDto> GetAsync(Guid id);
         Task<BookDto> UpdateAsync(Guid id, BookUpdateDto input);
         Task DeleteAsync(Guid id);
+        Task<DownloadTokenResultDto> GetDownloadTokenAsync();
     }
 }

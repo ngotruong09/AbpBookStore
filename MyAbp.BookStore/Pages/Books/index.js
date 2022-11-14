@@ -1,7 +1,7 @@
 $(function () {
     var l = abp.localization.getResource("BookStore");
 	
-    var bookService = myAbp.bookStore.books.books;
+    var bookService = myAbp.bookStore.books.book;
 	
     var createModal = new abp.ModalManager({
         viewUrl: abp.appPath + "Books/CreateModal",

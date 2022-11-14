@@ -143,7 +143,7 @@ public class BookStoreModule : AbpModule
         ConfigureAutoMapper(context);
         ConfigureSwagger(context.Services);
         ConfigureNavigationServices();
-        ConfigureAutoApiControllers();
+        //ConfigureAutoApiControllers();
         ConfigureVirtualFiles(hostingEnvironment);
         ConfigureLocalization();
         ConfigureEfCore(context);
