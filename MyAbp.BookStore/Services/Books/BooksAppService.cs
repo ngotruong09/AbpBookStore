@@ -26,5 +26,36 @@ namespace MyAbp.BookStore.Books
                 Items = ObjectMapper.Map<List<Book>, List<BookDto>>(items)
             };
         }
+
+        [Authorize(BookStorePermissions.Books.Create)]
+        public virtual async Task<BookDto> CreateAsync(BookCreateDto input)
+        {
+            var book = ObjectMapper.Map<BookCreateDto, Book>(input);
+            book = await _bookRepository.InsertAsync(book, true);
+            return ObjectMapper.Map<Book, BookDto>(book);
+        }
+
+        public virtual async Task<BookDto> GetAsync(Guid id)
+        {
+            var book = await _bookRepository.GetAsync(id);
+            return ObjectMapper.Map<Book, BookDto>(book);
+        }
+
+        [Authorize(BookStorePermissions.Books.Edit)]
+        public virtual async Task<BookDto> UpdateAsync(Guid id, BookUpdateDto input)
+        {
+            var queryable = await _bookRepository.GetQueryableAsync();
+            var query = queryable.Where(x => x.Id == id);
+            var book = await AsyncExecuter.FirstOrDefaultAsync(query);
+            ObjectMapper.Map(input, book);
+            book = await _bookRepository.UpdateAsync(book);
+            return ObjectMapper.Map<Book, BookDto>(book);
+        }
+
+        [Authorize(BookStorePermissions.Books.Delete)]
+        public virtual async Task DeleteAsync(Guid id)
+        {
+            await _bookRepository.DeleteAsync(id);
+        }
     }
 }

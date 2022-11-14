@@ -1,0 +1,33 @@
+@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MyAbp.BookStore.Localization
+@using MyAbp6.Web.Pages.Books
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@using MyAbp.BookStore.Books;
+@using System.Globalization
+@inject IHtmlLocalizer<BookStoreResource> L
+@model EditModalModel
+@{
+    Layout = null;
+}
+
+<form data-ajaxForm="true" asp-page="/Books/EditModal" autocomplete="off">
+    <abp-modal id="BookEditModal">
+        <abp-modal-header title="@L["Update"].Value"></abp-modal-header>
+
+        <abp-modal-body>
+            <abp-input asp-for="Id" />
+                    
+            <abp-input asp-for="Book.Name" />
+
+            <abp-input asp-for="Book.AuthorName" />
+
+            <abp-input asp-for="Book.Price" />
+
+            <abp-input asp-for="Book.PublishDate" />
+
+        </abp-modal-body>
+
+        <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
+    </abp-modal>
+</form>

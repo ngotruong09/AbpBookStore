@@ -13,10 +13,5 @@ namespace MyAbp.BookStore.Books
         public decimal? PriceMax { get; set; }
         public DateTime? PublishDateMin { get; set; }
         public DateTime? PublishDateMax { get; set; }
-
-        public GetBooksInput()
-        {
-
-        }
     }
 }

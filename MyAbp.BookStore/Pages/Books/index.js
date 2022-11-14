@@ -3,7 +3,6 @@ $(function () {
 	
     var bookService = myAbp.bookStore.books.books;
 	
-	
     var createModal = new abp.ModalManager({
         viewUrl: abp.appPath + "Books/CreateModal",
         scriptUrl: "/Pages/Books/createModal.js",
@@ -48,8 +47,8 @@ $(function () {
                                 visible: abp.auth.isGranted('BookStore.Books.Edit'),
                                 action: function (data) {
                                     editModal.open({
-                                     id: data.record.id
-                                     });
+                                        id: data.record.id
+                                    });
                                 }
                             },
                             {
@@ -141,6 +140,4 @@ $(function () {
     $('#AdvancedFilterSection select').change(function() {
         dataTable.ajax.reload();
     });
-    
-    
 });
