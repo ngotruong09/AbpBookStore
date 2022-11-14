@@ -93,6 +93,8 @@ $(function () {
         dataTable.ajax.reload();
     });
 
+    $('#fileType').select2();
+
     $("#NewBookButton").click(function (e) {
         e.preventDefault();
         createModal.open();
@@ -107,13 +109,15 @@ $(function () {
         e.preventDefault();
 
         bookService.getDownloadToken().then(
-            function(result){
-                    var input = getFilter();
-                    var url =  abp.appPath + 'api/app/books/as-excel-file' + 
+            function (result) {
+                var input = getFilter();
+                var fileType = $('#fileType').val();
+                var url = abp.appPath + 'api/book-store/books/get-file' + 
                         abp.utils.buildQueryString([
                             { name: 'downloadToken', value: result.token },
                             { name: 'filterText', value: input.filterText }, 
                             { name: 'name', value: input.name }, 
+                            { name: 'fileType', value: fileType }, 
                             { name: 'authorName', value: input.authorName },
                             { name: 'priceMin', value: input.priceMin },
                             { name: 'priceMax', value: input.priceMax },

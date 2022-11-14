@@ -1,10 +1,17 @@
+using Exporter;
+using Exporter.Abstract.Managers;
+using Exporter.Csv.Exporters;
+using Exporter.Excel.Exporters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Distributed;
 using MyAbp.BookStore.Permissions;
 using MyAbp.BookStore.Services.Books;
+using Newtonsoft.Json;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Authorization;
 using Volo.Abp.Caching;
+using Volo.Abp.Content;
 
 namespace MyAbp.BookStore.Books
 {
@@ -13,11 +20,13 @@ namespace MyAbp.BookStore.Books
     {
         private readonly IBookRepository _bookRepository;
         private readonly IDistributedCache<BookExcelDownloadTokenCacheItem, string> _excelDownloadTokenCache;
+        private readonly IExporterManager _exporterManager;
 
-        public BooksAppService(IBookRepository bookRepository, IDistributedCache<BookExcelDownloadTokenCacheItem, string> excelDownloadTokenCache)
+        public BooksAppService(IBookRepository bookRepository, IDistributedCache<BookExcelDownloadTokenCacheItem, string> excelDownloadTokenCache, IExporterManager exporterManager)
         {
             _bookRepository = bookRepository;
             _excelDownloadTokenCache = excelDownloadTokenCache;
+            _exporterManager = exporterManager;
         }
 
         public virtual async Task<PagedResultDto<BookDto>> GetListAsync(GetBooksInput input)
@@ -79,6 +88,41 @@ namespace MyAbp.BookStore.Books
             {
                 Token = token
             };
+        }
+
+        [AllowAnonymous]
+        public virtual async Task<IRemoteStreamContent> GetFileAsync(BookDownloadDto input)
+        {
+            var downloadToken = await _excelDownloadTokenCache.GetAsync(input.DownloadToken);
+            if (downloadToken == null || input.DownloadToken != downloadToken.Token)
+            {
+                throw new AbpAuthorizationException("Invalid download token: " + input.DownloadToken);
+            }
+
+            var items = await _bookRepository.GetListAsync(input.FilterText, input.Name, input.Title, input.PriceMin, input.PriceMax);
+            var datas = (from item in items
+                         let json = JsonConvert.SerializeObject(item)
+                         let tmp= JsonConvert.DeserializeObject<IDictionary<string, object>>(json)
+                         select tmp).ToList();
+
+            var memoryStream = new MemoryStream();
+            var fileName = string.Empty;
+            if (input.FileType == "csv")
+            {
+                memoryStream = await _exporterManager.GetStreamDocument(
+                          ExportCsvType.GetExportType(), datas, new OptionCsv { TempFolderPath = Path.GetTempPath() });
+                fileName = "Book.csv";
+                memoryStream.Seek(0, SeekOrigin.Begin);
+            }
+            else if(input.FileType == "excel")
+            {
+                memoryStream = await _exporterManager.GetStreamDocument(
+                          ExportExcelType.GetExportType(), datas, new OptionExcel { NumberRowPerSheet = 500000 });
+                fileName = "Book.xlsx";
+                memoryStream.Seek(0, SeekOrigin.Begin);
+            }
+            
+            return new RemoteStreamContent(memoryStream, fileName);
         }
     }
 }

@@ -21,10 +21,21 @@
 }
 
 @section content_toolbar {
-    <abp-button id="ExportToExcelButton" text="@L["ExportToExcel"].Value" icon="download" size="Small" button-type="Primary" />
+    <abp-column size-md="_1">
+        <select id="fileType" style="width: 90%; height: 100%;">
+            <option value="csv">CSV</option>
+            <option value="excel">EXCEL</option>
+        </select>
+    </abp-column>
+    <abp-column size-md="_1">
+        <abp-button style="width: 90%; height: 100%;" id="ExportToExcelButton" text="@L["ExportFile"].Value" icon="download" size="Small" button-type="Primary" />
+    </abp-column>
+
     @if (await Authorization.IsGrantedAsync(BookStorePermissions.Books.Create))
     {
-        <abp-button id="NewBookButton" text="@L["NewBook"].Value" icon="plus" size="Small" button-type="Primary" />
+        <abp-column size-md="_1">
+            <abp-button style="width: 90%; height: 100%;" id="NewBookButton" text="@L["NewBook"].Value" icon="plus" size="Small" button-type="Primary" />
+        </abp-column>
     }
 }
 

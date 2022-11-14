@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Extensions.DependencyInjection;
+﻿using Exporter.Csv;
+using Exporter.Excel;
+using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
 using MyAbp.BookStore.Books;
@@ -99,7 +101,9 @@ namespace MyAbp.BookStore;
     typeof(AbpSettingManagementApplicationModule),
     typeof(AbpSettingManagementEntityFrameworkCoreModule),
     typeof(AbpSettingManagementHttpApiModule),
-    typeof(AbpSettingManagementWebModule)
+    typeof(AbpSettingManagementWebModule),
+    typeof(HwlExporterCsvModule),
+    typeof(HwlExporterExcelModule)
 )]
 public class BookStoreModule : AbpModule
 {

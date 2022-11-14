@@ -1,5 +1,7 @@
+using MyAbp.BookStore.Services.Books;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Content;
 
 namespace MyAbp.BookStore.Books
 {
@@ -11,5 +13,6 @@ namespace MyAbp.BookStore.Books
         Task<BookDto> UpdateAsync(Guid id, BookUpdateDto input);
         Task DeleteAsync(Guid id);
         Task<DownloadTokenResultDto> GetDownloadTokenAsync();
+        Task<IRemoteStreamContent> GetFileAsync(BookDownloadDto input);
     }
 }

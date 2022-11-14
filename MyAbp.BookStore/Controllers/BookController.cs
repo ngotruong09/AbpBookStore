@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyAbp.BookStore.Controllers;
+using MyAbp.BookStore.Services.Books;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Content;
 
 namespace MyAbp.BookStore.Books
 {
@@ -44,6 +46,13 @@ namespace MyAbp.BookStore.Books
         public Task<DownloadTokenResultDto> GetDownloadTokenAsync()
         {
             return _booksAppService.GetDownloadTokenAsync();
+        }
+
+        [HttpGet]
+        [Route("get-file")]
+        public Task<IRemoteStreamContent> GetFileAsync(BookDownloadDto input)
+        {
+            return _booksAppService.GetFileAsync(input);
         }
 
         [HttpGet]
