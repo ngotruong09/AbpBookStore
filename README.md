@@ -12,7 +12,10 @@ dotnet run --migrate-database
 
 This will create and seed the initial database. Then you can run the application with any IDE that supports .NET.
 
-Happy coding..!
+## How to create this solution
+````bash
+dotnet run --migrate-database
+````
 
 
 
