@@ -1,6 +1,10 @@
 ## About this solution
 
-This is a minimalist, non-layered startup solution with the ABP Framework. All the fundamental ABP modules are already installed.
+Đây là project dạng non-layered Abp. Các tính năng có trong project gồm:
+- [x] View, thêm, xóa, sửa book
+- [x] Xuất file theo 2 định dạng CSV, EXCEL
+- [x] Tạo thêm client để sử dụng cho phân hệ mobile
+- [ ] Cung cấp các api CRUD book cho phân hệ mobile   
 
 ## How to run
 
