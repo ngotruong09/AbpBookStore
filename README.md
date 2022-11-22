@@ -18,6 +18,13 @@ Mô hình hệ thống
   <img src="./doc/system.png" alt="Hệ thống" style="width:400px; height:300px;" >
 </p>
 
+### Các thành phần trong `BookStoreService`:
+
+- AutherServer
+- Web Admin để quản lý Book
+- Các Api dành cho mobile và admin
+- Database
+
 ## How to run
 
 Set up sql server connection string tại appsettings.json
