@@ -4,7 +4,7 @@
   </p>
 </a>
 
-## Overview
+## Tổng quan
 
 Đây là project dạng non-layered Abp. Các tính năng có trong project gồm:
 - [x] View, thêm, xóa, sửa book
@@ -26,7 +26,7 @@ Mô hình hệ thống
   - https://localhost:44344/swagger/index.html
 - Database
 
-## How to run
+## Cách chạy project
 
 Set up sql server connection string tại appsettings.json
 
@@ -55,3 +55,37 @@ abp install-libs
 Câu lệnh trên sẽ pull các javascript package mà project sử dụng.
 
 Sau khi câu lệnh trên chạy xong, chúng ta mở IDE Visual studio lên và chạy project.
+
+## Gọi Api từ postman
+
+Tạo Client từ Api `api/openid/app/create` với input:
+
+````bash
+{
+  ClientId : "mobile",
+  ClientSecret : "123@Abc",
+  ConsentType : "Implicit",
+  DisplayName : "mobile",
+  Type : "confidential",
+  ClientUri : null,
+  LogoUri : null
+}
+````
+
+Phân quyền cho client `mobile`
+
+<p align="center">
+  <img src="./doc/db1.png" alt="Hệ thống" style="max-width: 80%;"/>
+</p>
+
+Gọi api connect (theo OAUTH 2.0) để get access token:
+
+<p align="center">
+  <img src="./doc/postman1.png" alt="Hệ thống" style="max-width: 80%;"/>
+</p>
+
+Gọi api get book sử dụng access token ở trên:
+
+<p align="center">
+  <img src="./doc/postman2.png" alt="Hệ thống" style="max-width: 80%;"/>
+</p>
