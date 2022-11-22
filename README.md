@@ -20,7 +20,7 @@ Mô hình hệ thống
 
 ### Các thành phần trong `BookStoreService`:
 
-- AutherServer
+- Auth Server sử dụng `OpenIddict`
 - Web Admin để quản lý Book
 - Các Api dành cho mobile và admin
 - Database
