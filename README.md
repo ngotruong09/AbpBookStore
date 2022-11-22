@@ -39,7 +39,7 @@ Set up sql server connection string tại appsettings.json
 }
 ```
 
-Sau đó đứng tại thư muc `MyAbp.BookStore` chạy câu lệnh sau:
+Sau đó đứng tại thư mục `MyAbp.BookStore` chạy câu lệnh sau:
 
 ````bash
 dotnet run --migrate-database
