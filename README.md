@@ -1,10 +1,16 @@
-## About this solution
+## Tổng quan
 
 Đây là project dạng non-layered Abp. Các tính năng có trong project gồm:
 - [x] View, thêm, xóa, sửa book
 - [x] Xuất file theo 2 định dạng CSV, EXCEL
 - [x] Tạo thêm client để sử dụng cho phân hệ mobile
-- [ ] Cung cấp các api CRUD book cho phân hệ mobile   
+- [x] Cung cấp các api CRUD book cho phân hệ mobile   
+
+Mô hình hệ thống
+
+<p align="center">
+  <img src="./doc/system.png" alt="Hệ thống" style="width:400px; height:300px;" >
+</p>
 
 ## How to run
 
