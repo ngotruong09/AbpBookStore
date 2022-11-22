@@ -23,6 +23,7 @@ Mô hình hệ thống
 - Auth Server sử dụng `OpenIddict`
 - Web Admin để quản lý Book
 - Các Api dành cho mobile và admin
+  - https://localhost:44344/swagger/index.html
 - Database
 
 ## How to run
@@ -31,11 +32,11 @@ Set up sql server connection string tại appsettings.json
 
 ```bash
 {
-...
+  ...
   "ConnectionStrings": {
     "Default": "Server=YourServer;Database=BookStoreDB;Trusted_Connection=True"
   },
-...
+  ...
 }
 ```
 
@@ -54,11 +55,3 @@ abp install-libs
 Câu lệnh trên sẽ pull các javascript package mà project sử dụng.
 
 Sau khi câu lệnh trên chạy xong, chúng ta mở IDE Visual studio lên và chạy project.
-
-## How to create this solution
-````bash
-dotnet run --migrate-database
-````
-
-
-
