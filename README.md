@@ -1,4 +1,10 @@
-## Tổng quan
+<a href="https://github.com/ngotruong09">
+  <p align="center">
+    <img src="./doc/bookstore.png" alt="BookStore">
+  </p>
+</a>
+
+## Overview
 
 Đây là project dạng non-layered Abp. Các tính năng có trong project gồm:
 - [x] View, thêm, xóa, sửa book
@@ -14,13 +20,33 @@ Mô hình hệ thống
 
 ## How to run
 
-The application needs to connect to a database. Run the following command in the `MyAbp.BookStore` directory:
+Set up sql server connection string tại appsettings.json
+
+```bash
+{
+...
+  "ConnectionStrings": {
+    "Default": "Server=YourServer;Database=BookStoreDB;Trusted_Connection=True"
+  },
+...
+}
+```
+
+Sau đó đứng tại thư muc `MyAbp.BookStore` chạy câu lệnh sau:
 
 ````bash
 dotnet run --migrate-database
 ````
 
-This will create and seed the initial database. Then you can run the application with any IDE that supports .NET.
+Bước tiếp theo, đứng tại thư mục `MyAbp.BookStore` chúng ta run câu lệnh:
+
+````bash
+abp install-libs
+````
+
+Câu lệnh trên sẽ pull các javascript package mà project sử dụng.
+
+Sau khi câu lệnh trên chạy xong, chúng ta mở IDE Visual studio lên và chạy project.
 
 ## How to create this solution
 ````bash
