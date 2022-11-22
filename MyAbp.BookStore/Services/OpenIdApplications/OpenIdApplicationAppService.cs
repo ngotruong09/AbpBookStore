@@ -12,17 +12,27 @@ namespace MyAbp.BookStore.Services.OpenIdApplications
         {
             _applicationManager = applicationManager;
         }
-        public virtual async Task CreateAsync()
+        public virtual async Task CreateAsync(CreateApplicationInput input)
         {
+            //var descriptor = new AbpApplicationDescriptor
+            //{
+            //    ClientId = "mobile",
+            //    ClientSecret = "123@Abc",
+            //    ConsentType = "Implicit",
+            //    DisplayName = "mobile",
+            //    Type = "confidential",
+            //    ClientUri = null,
+            //    LogoUri = null
+            //};
             var descriptor = new AbpApplicationDescriptor
             {
-                ClientId = "test123",
-                ClientSecret = "test123",
-                ConsentType = "Implicit",
-                DisplayName = "test123",
-                Type = "confidential",
-                ClientUri = null,
-                LogoUri = null
+                ClientId = input.ClientId,
+                ClientSecret = input.ClientSecret,
+                ConsentType = input.ConsentType,
+                DisplayName = input.DisplayName,
+                Type = input.Type,
+                ClientUri = input.ClientUri,
+                LogoUri = input.LogoUri
             };
             descriptor.Permissions.Add(OpenIddictConstants.Permissions.Endpoints.Token);
             descriptor.Permissions.Add(OpenIddictConstants.Permissions.Endpoints.Revocation);
@@ -31,7 +41,6 @@ namespace MyAbp.BookStore.Services.OpenIdApplications
             descriptor.Permissions.Add($"{OpenIddictConstants.Permissions.Prefixes.Scope}BookStore");
 
             var application = await _applicationManager.CreateAsync(descriptor);
-            //await _applicationManager.UpdateAsync(application);
         }
     }
 }

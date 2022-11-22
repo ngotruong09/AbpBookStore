@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyAbp.BookStore.Services.OpenIdApplications;
-using System.Xml.Linq;
 using Volo.Abp;
 
 namespace MyAbp.BookStore.Controllers
@@ -18,11 +17,11 @@ namespace MyAbp.BookStore.Controllers
             _openIdApplicationAppService = openIdApplicationAppService;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("create")]
-        public Task CreateAsync()
+        public Task CreateAsync(CreateApplicationInput input)
         {
-            return _openIdApplicationAppService.CreateAsync();
+            return _openIdApplicationAppService.CreateAsync(input);
         }
     }
 }
