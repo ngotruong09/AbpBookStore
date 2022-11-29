@@ -255,6 +255,31 @@ public class BookStoreDbContext : AbpDbContext<BookStoreDbContext>
 }
 ```
 
+`AddRepository` tại `ConfigureEfCore` trong `BookStoreModule`:
+```bash
+private void ConfigureEfCore(ServiceConfigurationContext context)
+{
+context.Services.AddAbpDbContext<BookStoreDbContext>(options =>
+{
+    /* You can remove "includeAllEntities: true" to create
+     * default repositories only for aggregate roots
+     * Documentation: https://docs.abp.io/en/abp/latest/Entity-Framework-Core#add-default-repositories
+     */
+    options.AddDefaultRepositories(includeAllEntities: true);
+    options.AddRepository<Book, EfCoreBookRepository>();
+});
+
+Configure<AbpDbContextOptions>(options =>
+{
+    options.Configure(configurationContext =>
+    {
+	configurationContext.UseSqlServer();
+    });
+});
+
+}
+```
+
 ### Migration database với 2 câu lệnh sau
 
 > Lưu ý: set up connection string tại appsettings.json
@@ -313,6 +338,10 @@ public class BooksAppService : ApplicationService, IBooksAppService
 
 ### Tạo `Permissions`
 
+<p align="center">
+  <img src="./doc/per1.png" alt="Hệ thống" style="width: 52% !important;"/>
+</p>
+
 ```bash
 public static class BookStorePermissions
 {
@@ -346,5 +375,62 @@ public class BookStorePermissionDefinitionProvider : PermissionDefinitionProvide
     }
 }
 ```
-Các caption `Permission:Books`, `Permission:Create`,... được định nghĩa tại `Localization\BookStore\*.json` (localization được sử dụng cho việc đa ngôn ngữ)
+Các caption `Permission:Books`, `Permission:Create`,... được định nghĩa tại `Localization\BookStore\*.json` (localization được sử dụng cho chức năng đa ngôn ngữ)
 
+### Tạo `Presentation Layer`
+
+Lớp `Presentation Layer` gồm `HttpApi` (controller) và phần `UI` (razor, angular, react js,...)
+
+Tạo `BookController` 
+```bash
+[RemoteService(Name = "BookStore")]
+[Area("BookStore")]
+[ControllerName("Book")]
+[Route("api/book-store/books")]
+public class BookController : BookStoreController, IBooksAppService
+{
+	private readonly IBooksAppService _booksAppService;
+  
+	public BookController(IBooksAppService booksAppService)
+	{
+		_booksAppService = booksAppService;
+	}
+
+	[HttpPost]
+	[Route("create")]
+	public Task<BookDto> CreateAsync(BookCreateDto input)
+	{
+		return _booksAppService.CreateAsync(input);
+	}
+	...
+}
+```
+
+> Chú ý: cần tắt chức năng tạo tự động API thì mình mới tạo được các endpoint theo nhu cầu.
+> Tắt chức năng tạo API tự động: bỏ dòng code `ConfigureAutoApiControllers` tại `ConfigureServices`
+
+
+
+### Tạo menu
+
+<p align="center">
+  <img src="./doc/menu.png" alt="Hệ thống" style="width:300px; height:300px;"/>
+</p>
+
+Tại class `BookStoreMenuContributor` add thêm:
+```bash
+ context.Menu.AddItem(
+    new ApplicationMenuItem(
+	BookStoreMenus.Books,
+	l["Menu:Books"],
+	url: "/Books",
+	icon: "fa fa-book",
+	requiredPermissionName: BookStorePermissions.Books.Default)
+);
+```
+
+### Chú ý tại bước tạo client
+
+Thông tin `Audiences` chính là thông tin scope `["ept:token","ept:revocation","ept:introspection","gt:client_credentials","scp:BookStore"]` trong phần grant quyền.
+
+> Happy Coding !
